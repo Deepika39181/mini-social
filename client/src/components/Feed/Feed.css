@@ -139,6 +139,8 @@ background:white;
 
 border-radius:20px;
 
+width:100%;
+
 display:flex;
 
 flex-direction:column;
@@ -150,19 +152,49 @@ box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
 
-
 /* POST IMAGE */
 
 .post img{
 
-width:300px;
+width:100%;
+
+max-width:600px;
+
+max-height:450px;
+
+height:auto;
+
+object-fit:contain;
 
 border-radius:15px;
 
-object-fit:cover;
+margin:10px auto;
+
+cursor:pointer;
 
 }
 
+.postImage{
+
+width:100%;
+
+max-width:600px;
+
+max-height:450px;
+
+height:auto;
+
+object-fit:contain;
+
+display:block;
+
+margin:10px auto;
+
+border-radius:15px;
+
+cursor:pointer;
+
+}
 
 
 /* POST VIDEO */

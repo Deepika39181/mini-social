@@ -282,10 +282,11 @@ className="post"
 post.image && (
 
 <img
-src={post.image}
-alt=""
-width="300"
+  src={post.image}
+  alt=""
+  className="postImage"
 />
+
 
 )
 
