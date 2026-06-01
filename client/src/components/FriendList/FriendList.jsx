@@ -6,9 +6,12 @@ function FriendList(){
 
 const [friend,setFriend]=useState("");
 
+const [allUsers,setAllUsers] = useState([]);
+
 const [friends,setFriends]=useState([]);
 
-
+const currentUser =
+localStorage.getItem("userid");
 
 // LOAD
 
@@ -18,10 +21,10 @@ const loadData=async()=>{
 
 try{
 
-const response=
+const response =
 
 await axios.get(
-"http://localhost:5000/friends"
+`http://localhost:5000/friends/${currentUser}`
 );
 
 setFriends(
@@ -40,9 +43,37 @@ console.log(error);
 
 loadData();
 
-},[]);
+},[currentUser]);
 
 
+
+useEffect(()=>{
+
+const loadUsers = async()=>{
+
+try{
+
+const response =
+await axios.get(
+`http://localhost:5000/allUsers/${currentUser}`
+);
+
+setAllUsers(
+response.data
+);
+
+}
+catch(error){
+
+console.log(error);
+
+}
+
+};
+
+loadUsers();
+
+},[currentUser]);
 
 
 // ADD FRIEND
@@ -54,17 +85,11 @@ if(!friend.trim()) return;
 try{
 
 await axios.post(
-
 "http://localhost:5000/addFriend",
-
 {
-
-user1:"User",
-
+user1:currentUser,
 user2:friend
-
 }
-
 );
 
 setFriend("");
@@ -74,7 +99,7 @@ setFriend("");
 const response=
 
 await axios.get(
-"http://localhost:5000/friends"
+`http://localhost:5000/friends/${currentUser}`
 );
 
 setFriends(
@@ -109,9 +134,8 @@ await axios.delete(
 
 
 const response=
-
 await axios.get(
-"http://localhost:5000/friends"
+`http://localhost:5000/friends/${currentUser}`
 );
 
 setFriends(
@@ -141,7 +165,49 @@ Friends
 
 </h2>
 
+<h3>People You May Know</h3>
 
+{
+allUsers.map((user)=>(
+
+<div
+key={user.userid}
+className="friend"
+>
+
+<span>
+{user.name} (@{user.userid})
+</span>
+
+<button
+onClick={async()=>{
+
+await axios.post(
+"http://localhost:5000/addFriend",
+{
+user1: currentUser,
+user2: user.userid
+}
+);
+
+const response =
+await axios.get(
+`http://localhost:5000/friends/${currentUser}`
+);
+
+setFriends(response.data);
+
+}}
+>
+
+Add Friend
+
+</button>
+
+</div>
+
+))
+}
 
 <input
 

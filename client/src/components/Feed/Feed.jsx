@@ -13,13 +13,14 @@ const [image, setImage] = useState("");
 const [video, setVideo] = useState("");
 
 
+const currentUser =
+localStorage.getItem("userid");
 
 
-// LOAD POSTS
 
 useEffect(()=>{
 
-const loadData = async()=>{
+const loadPosts = async()=>{
 
 try{
 
@@ -39,12 +40,9 @@ console.log(error);
 
 };
 
-loadData();
+loadPosts();
 
 },[]);
-
-
-
 
 // IMAGE UPLOAD
 
@@ -103,7 +101,7 @@ try{
 await axios.post(
 "http://localhost:5000/createPost",
 {
-username:"User",
+username: currentUser,
 postText:text,
 image:image,
 video:video
@@ -239,7 +237,9 @@ onChange={uploadVideo}
 
 </div>
 
-
+<h3>
+Welcome {currentUser}
+</h3>
 
 <button onClick={createPost}>
 
@@ -248,11 +248,6 @@ Post
 </button>
 
 </div>
-
-
-
-
-
 
 {
 
@@ -263,7 +258,17 @@ key={post.id}
 className="post"
 >
 
-<h3>
+<h3
+className="postUser"
+onClick={()=>{
+localStorage.setItem(
+"viewProfile",
+post.username
+);
+
+window.location.href="/";
+}}
+>
 
 {post.username}
 
