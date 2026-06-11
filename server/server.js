@@ -519,8 +519,8 @@ res.send(
 }
 );
 });
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server Running on ${PORT}`);
+app.listen(
+5000,
+()=>{
+console.log("Server Running");
 });
